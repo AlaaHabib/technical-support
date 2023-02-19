@@ -17,6 +17,7 @@ import { AuthModule } from './api/auth/auth.module';
 import { RequestContextMiddleware } from './domain/middlewares/request-context.middleware';
 import { WinstonModule } from 'nest-winston';
 import { UserModule } from './api/user/user.module';
+import { TicketModule } from './api/ticket/ticket.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -27,7 +28,7 @@ import { UserModule } from './api/user/user.module';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         const dataSourceBasicOptions: DataSourceOptions & SeederOptions = {
-          type: 'mysql',
+          type: 'postgres',
           host: configService.get('DATA_BASE_HOST'),
           port: +configService.get('DATA_BASE_PORT'),
           username: configService.get('DATA_BASE_USER_NAME'),
@@ -52,7 +53,7 @@ import { UserModule } from './api/user/user.module';
           ifNotExist: true,
           options: dataSourceBasicOptions,
           synchronize: true,
-          initialDatabase: 'mysql',
+          initialDatabase: 'postgres',
         });
         CustomLogger('end database creation');
         await SeedRunner.run(
@@ -103,6 +104,7 @@ import { UserModule } from './api/user/user.module';
     }),
     AuthModule,
     UserModule,
+    TicketModule
   ],
   controllers: [],
   providers: [AppService],

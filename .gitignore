@@ -2,3 +2,5 @@ node_modules
 dist 
 log
 .env
+tsconfig.json
+tsconfig.build.json

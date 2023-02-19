@@ -4,8 +4,10 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   Generated,
+  OneToOne,
 } from 'typeorm';
 import { BaseRecord } from '../base-tables/base-record';
+import { Ticket } from '../ticket';
 import { UserRole } from './user-role.entity';
 
 @Entity('users')
@@ -31,4 +33,7 @@ export class User extends BaseRecord {
   // relations
   @ManyToOne(() => UserRole, (userRole) => userRole.users)
   userRole: UserRole;
+
+  @OneToOne(() => Ticket, (ticket) => ticket.user, { cascade: true }) 
+  ticket?: Ticket;
 }

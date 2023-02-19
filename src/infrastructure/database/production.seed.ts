@@ -24,22 +24,18 @@ export class ProductionSeeder {
 
   private async createRoles() {
     const userRole: UserRole[] = [
-      { name: UsersRoles.Root },
-      { name: UsersRoles.User },
+      { name: UsersRoles.ADMIN },
+      { name: UsersRoles.USER },
     ];
 
     await this.dataSource.manager.insert<UserRole>(UserRole, userRole);
   }
 
   private async createRoot() {
-    const adminRole = await this.dataSource.manager.findOne<UserRole>(
-      UserRole,
-      { where: { name: UsersRoles.Root } },
-    );
     const data = {
       email: 'admin@admin.com',
       password: '123456',
-      userRoleId: adminRole.id,
+      userRoleType: UsersRoles.ADMIN,
       isRoot:true
     };
     return await this.userRepo.Register(data);
